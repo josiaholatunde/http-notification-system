@@ -36,5 +36,9 @@ module.exports = {
                 throw error;
             }
         }
+    },
+    hasUrlBeenSubscribedToTopicPreviously: (subscribers = [], url) => {
+        const subscribedUrl = subscribers.find(subscriber => subscriber.url === url)
+        return !!subscribedUrl;
     }
 }

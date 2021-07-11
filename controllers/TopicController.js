@@ -22,6 +22,9 @@ module.exports = {
             if (!topicFromDb) {
                 return ResponseService.send(404, res, 'Topic does not exist', null);
             }
+            if (TopicService.hasUrlBeenSubscribedToTopicPreviously(url)) {
+                return ResponseService.send(200, res, 'Url has previously been subscribed to topic', { topic, url }, null);
+            }
             await TopicService.subscribeToTopic(topicFromDb, url);
             return ResponseService.send(201, res, 'Successfully subscribed to topic', { topic, url }, null);
         } catch (ex) {
