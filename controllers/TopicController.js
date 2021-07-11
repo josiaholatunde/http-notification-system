@@ -58,19 +58,14 @@ module.exports = {
 
     },
     publishTopic: async(req, res, next) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return ResponseService.send(
-                422,
-                res,
-                "One or more validation errors occurred",
-                null,
-                errors.array({ onlyFirstError: true })
-            );
-        }
+
         try {
             const { topic } = req.params
             const message = req.body;
+
+            if (!message || typeof message !== 'object') {
+                return ResponseService.send(400, res, 'Invalid rwquest body. Request body must be a valid object', null);
+            }
 
             const topicFromDb = await TopicService.findByTitle(topic);
             if (!topicFromDb) {
